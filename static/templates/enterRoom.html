@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="zh-cn">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0">
+    <title>房间</title>
+    <script type="text/javascript">
+        var currentUser = '<%= username %>';
+        var roomId = '<%= roomId %>';
+    </script>
+    <script src="/lib/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <script src="/lib/socket.io-1.3.5.js" type="text/javascript"></script>
+</head>
+<style>
+    .hidden {
+        visibility: hidden;
+    }
+    
+    body {
+        background: url(/img/bg.jpg);
+        width: 100%;
+        height: 100%;
+        margin: 0;
+    }
+    
+    .red {
+        color: red!important;
+    }
+    
+    .blue {
+        color: blue!important;
+    }
+    
+    .green {
+        color: green!important;
+    }
+    
+    .activePlayer {
+        border: solid 2px orange!important;
+        background: orange;
+    }
+    
+    body {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        font-family: "Microsoft Yahei";
+    }
+    
+    .left {
+        height: 100%;
+        float: left;
+        margin: 0;
+        z-index: 999;
+    }
+    
+    .right {
+        color: aquamarine;
+        width: 300px;
+        height: 100%;
+        float: right;
+        background-color: darkslategrey;
+        margin: 0;
+        overflow: hidden;
+    }
+    
+    .up {
+        height: 50%;
+        border-bottom: solid 1px green;
+    }
+    
+    .userinfo {
+        height: 80px;
+        border: solid 2px white;
+    }
+    
+    .contentLeft {
+        float: left;
+        width: 40px;
+        height: 40px;
+        top: 50%;
+        position: relative;
+        margin-top: -20px;
+        left: 5px;
+    }
+    
+    .contentRight {
+        padding-top: 2px;
+        padding-left: 10px;
+        float: left;
+    }
+    
+    .usericon {
+        float: right;
+        width: 80px;
+        height: 80px;
+        position: relative;
+    }
+    
+    .msgBox {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 300px;
+        height: 200px;
+        text-align: center;
+        margin-top: -100px;
+        margin-left: -150px;
+        background: white;
+        z-index: 9999;
+    }
+    
+    #chatContent {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        height: 235px;
+        color: lightblue;
+        background-color: black;
+        overflow: auto;
+        font-family: "consolas";
+    }
+    
+    .ip {
+        width: 100%;
+    }
+    
+    #content {
+        width: 70%;
+        color: lightblue;
+        background-color: black;
+    }
+    
+    #send {
+        width: 25%;
+    }
+    
+    .gamepad {
+        background: url(/img/wuziqi.png);
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        font-size: 0;
+        left: 13%;
+        top: 6%;
+        margin-left: -450px;
+        margin-top: -300px;
+        background-size: 143% 189%;
+        background-position: 57% 60%;
+        border-radius: 5px;
+        box-shadow: 5px 5px 20px;
+        margin: 0;
+        z-index: 999;
+    }
+    
+    .game-cell {
+        width: 40px;
+        height: 40px;
+        display: inline-block;
+        background: url(/img/qp.png);
+        padding: 0;
+        border: 0;
+    }
+    
+    .borderTop {
+        background: url(/img/border.png);
+        background-position: 0px 0px;
+    }
+    
+    .borderBottom {
+        background: url(/img/border.png);
+        transform: rotate(180deg);
+        -webkit-transform: rotate(180deg);
+        background-position: 1px 0px;
+    }
+    
+    .borderLeft {
+        background: url(/img/border.png);
+        transform: rotate(270deg);
+        -webkit-transform: rotate(270deg);
+        background-position: 0px 0px;  
+    }
+    
+    .borderRight {
+        background: url(/img/border.png);
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg);
+        background-position: 1px 0px;
+    }
+    
+    .cornerTopLeft {
+        background: url(/img/corner.png);
+        background-position: 1px 0px;
+    }
+    
+    .cornerTopRight {
+        background: url(/img/corner.png);
+        transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+        background-position: 1px 0px;
+    }
+    
+    .cornerBottomLeft {
+        background: url(/img/corner.png);
+        transform: scaleY(-1);
+        -webkit-transform: scaleY(-1);
+        background-position: 1px 0px;
+    }
+    
+    .cornerBottomRight {
+        background: url(/img/corner.png);
+        transform: scale(-1, -1);
+        -webkit-transform: scale(-1, -1);
+        background-position: 1px 0px;
+    }
+    
+    .whiteChess {
+        background: url(/img/whiteonqp.png);
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+    }
+    
+    .blackChess {
+        background: url(/img/blackonqp.png);
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+    }
+    
+    .bar {
+        border: solid 2px white;
+        width: 150px;
+        height: 8px;
+    }
+    
+    .barProgress {
+        background: white;
+        height: 100%;
+    }
+    
+    #timeLeft {
+        width: 300px;
+        height: 30px;
+        padding-top: 20px;
+        padding-left: 20px;
+    }
+    
+    #timeLeft > .bar {
+        width: 250px;
+    }
+</style>
+<body>
+    <div class="left">
+        <div class="gamepad">
+            <% for (var i = 0; i < 15; i++) { %>
+                <% for (var j = 0; j < 15; j++) { %>
+                    <% var className='game-cell' %>
+                    <% if (i == 0 && j != 0 && j != 14) className += ' borderTop' %>
+                    <% if (i == 14 && j != 0 && j != 14) className += ' borderBottom' %>
+                    <% if (j == 0 && i != 0 && i != 14) className += ' borderLeft' %>
+                    <% if (j == 14 && i != 0 && i != 14) className += ' borderRight' %>
+                    <% if (i == 0 && j == 0) className += ' cornerTopLeft' %>
+                    <% if (i == 14 && j == 0) className += ' cornerBottomLeft' %>
+                    <% if (i == 0 && j == 14) className += ' cornerTopRight' %>
+                    <% if (i == 14 && j == 14) className += ' cornerBottomRight' %>
+                    <div class="<%=className%>" id="<%= i.toString() + '-' + j.toString() %>"></div>
+                <% } %>
+            <% } %>
+        </div>
+    </div>
+    <div class="right">
+        <div class="up">
+            <h3>房间：<%= roomId %></h3>
+            <div class="det">Waiting</div>
+            <div class="vs"></div>
+            <div class="userinfo" id="uBlack">
+                <div class="contentLeft blackChess"></div>
+                <div class="contentRight">
+                    <span id="usernameBlack">等待中</span>
+                    <br/>
+                    <span id="stBlack">......</span>
+                    <br/>
+                    <div class="bar">
+                        <div id="pBlack" class="barProgress"></div>
+                    </div>
+                </div>
+                <img id="iconBlack" class="usericon" src="/img/iconnobody.png" alt="" />
+            </div>
+            <div class="userinfo" id="uWhite">
+                <div class="contentLeft whiteChess"></div>
+                <div class="contentRight">
+                    <span id="usernameWhite">等待中</span>
+                    <br/>
+                    <span id="stWhite">......</span>
+                    <br/>
+                    <div class="bar">
+                        <div id="pWhite" class="barProgress"></div>
+                    </div>
+                </div>
+                <img id="iconWhite" class="usericon" src="/img/iconnobody.png" alt="" />
+            </div>
+            <div id="timeLeft">
+                <div class="bar">
+                    <div id="tLeft" class="barProgress"></div>
+                </div>
+            </div>
+        </div>
+        <div class="down">
+            <div id="chatContent"></div>
+            <div class="ip">
+                <input type="text" id="content" />
+                <button id="send">发送</button>
+            </div>
+            <div class="debug">
+<!--                <button id="start">start</button>-->
+                <button class="requestRestart">重新开始</button>
+            </div>
+        </div>
+    </div>
+    <div id="endgameBox" class="msgBox hidden">
+        <p>游戏已结束</p>
+        <p id="winner"></p>
+        <button class="requestRestart">重新开始</button>
+    </div>
+    <div id="confirmRestart" class="msgBox hidden">
+        <p>对方请求重新开始，是否同意？</p>
+        <button id="agree">同意</button>
+        <button id="disagree">不同意</button>
+    </div>
+    <script type="text/javascript" src="/scripts/gaming.js"></script>
+</body>
+</html>

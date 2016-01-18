@@ -1,0 +1,99 @@
+<% include public_header.html %>
+<style>
+    body {
+        background: url(/img/forumbg.jpg);
+    }
+    
+    .well {
+        width: 800px;
+        margin: auto;
+    }
+    
+    .left {
+        width: 30%;
+/*        float: left;*/
+        text-align: center;
+        height: 100%;
+        vertical-align: middle;
+        padding-top: 25px;
+        border-right: 1px solid #dfdfdf;
+        top: 0;
+        bottom: 0;
+        display: table-cell;
+    }
+    
+    .right {
+        width: 70%;
+/*        float: right;*/
+        height: 100%;
+        padding: 10px;
+        display: table-cell;
+    }
+    
+    .reply {
+        border: 1px solid #dfdfdf;
+        min-height: 200px;
+        width: 100%;
+        word-wrap: break-word;
+        height:auto !important; 
+        height: 200px; 
+        display: table;
+        overflow: hidden;
+    }
+    
+    .reply > .left > img {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .newrep {
+        margin-top: 30px;
+    }
+    
+    #replyContent {
+        height: 230px;
+    }
+    
+    .bar {
+        margin: auto;
+        border: solid 2px orange;
+        width: 150px;
+        height: 8px;
+    }
+    
+    .barProgress {
+        background: orange;
+        height: 100%;
+    }
+</style>
+<div class="well">
+    <h3><%= title %></h3>
+    <% for (var i = 0; i < replyList.length; i++) { %>
+        <div class="reply">
+            <div class="left">
+                <img src="<%= replyList[i].icon%>" alt="" />
+                <p><%= replyList[i].username %></p>
+                <p>等级:<%= parseInt(replyList[i].level) %></p>
+                <% var level = replyList[i].level; %>
+                <% var p = (level - parseInt(level))*100; %>
+                <div class="bar">
+                        <div id="pWhite" class="barProgress" style="width: <%= p + '%' %>"></div>
+                </div>
+            </div>
+            <div class="right">
+                <%- replyList[i].content %>
+            </div>
+            <div class="clearer"></div>
+        </div>
+    <% } %>
+    <div class="newrep">
+        <div class="form-group">
+            <label for="replyContent">回复:</label>
+            <textarea id="replyContent" class="form-control"></textarea>
+            <br/>
+            <button class="btn btn-success" id="submitReply">回复</button>
+        </div>
+    </div>
+    <input type="hidden" value="<%= pid %>" id="pid" />
+</div>
+<% include public_footer.html %>

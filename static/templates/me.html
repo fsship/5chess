@@ -1,0 +1,43 @@
+<% include public_header.html %>
+<style>
+    .well {
+        width: 800px;
+        margin: auto;
+        text-align: center;
+    }
+    
+    img {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .bar {
+        margin: auto;
+        border: solid 2px orange;
+        width: 150px;
+        height: 8px;
+    }
+    
+    .barProgress {
+        background: orange;
+        height: 100%;
+    }
+</style>
+<div class="well">
+    <h1>关于我</h1>
+    <img src="<%= icon %>" alt="">
+    <br />
+    <br />
+    <form method="post" action="">
+        <input type="file" name="file" id="uploader" style="margin: auto;width: 170px" accept="image/*"/>
+        <button id="uploadIcon">上传头像</button>
+    </form>
+    <br />
+    <p>用户名:<span id="name"><%= username %></span></p>
+    <p>等级:<span id="Lv"><%= parseInt(level) %></span></p>
+    <% var p = (level - parseInt(level))*100; %>
+    <div class="bar">
+        <div id="pWhite" class="barProgress" style="width: <%= p + '%' %>"></div>
+    </div>
+</div>
+<% include public_footer.html %>

@@ -1,0 +1,50 @@
+<% include public_header.html %>
+<style>
+    body {
+        background: url(/img/forumbg.jpg)!important;
+        
+    }
+    
+    .well {
+        width: 800px;
+        margin: auto;
+    }
+    
+    #content {
+        height: 300px;
+    }
+</style>
+<div class="well">
+    <table class="table">
+        <tr>
+            <th>标题</th>
+            <th width="20%">作者</th>
+        </tr>
+        <tbody>
+            <% for (var i = 0; i < postList.length; i++) { %>
+                <tr>
+                    <td>
+                        <a target="_blank" href="/post?id=<%= postList[i].pid %>"><%=  postList[i].title %></a>
+                    </td>
+                    <td>
+                        <%= postList[i].username %>
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+<div class="well" style="margin-top:10px">
+    <h3>新讨论</h3>
+    <form-group>
+        <label for="title">标题</label>
+        <input type="text" class="form-control" id="title"/>
+    </form-group>
+    <form-group>
+        <label for="content">内容</label>
+        <textarea class="form-control" id="content"></textarea>
+    </form-group>
+    <br/>
+    <button id="addNewPost" class="btn btn-success">提交</button>
+</div>
+<% include public_footer.html %>

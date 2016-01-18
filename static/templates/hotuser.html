@@ -1,0 +1,12 @@
+<% for (var i=0; i < data.length; i++) { %>
+    <div class="userInfo">
+        <div class="uLeft">
+            <img src="<%= data[i].icon %>" alt="">
+        </div>
+        <div class="uRight">
+            <p><%= data[i].username %></p>
+            <p>等级:<%= parseInt(data[i].level) %></p>
+        </div>
+    </div>
+    <div class="clearer"></div>
+<% } %>

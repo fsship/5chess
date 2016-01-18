@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-cn" style="height:100%">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" data-main="/scripts/main" src="/lib/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/lib/jquery.ajaxfileupload.js"></script>
+
+    <script type="text/javascript" data-main="/scripts/main" src="/scripts/app.js"></script>
+</head>
+<style>
+    body {
+        font-family: "Microsoft Yahei";
+        height: 100%;
+        background-color: darkgreen;
+        background: url(/img/bgwood.jpg);
+        background-size: cover;
+    }
+    
+    #headerBar-fake {
+        background-color: darkcyan;
+        opacity: 0.5;
+        filter: progid:DXImageTransform.Microsoft.Alpha(opacity=70);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 70px;
+        top: -70px;
+        transition: top 1s;
+        -webkit-transition: top 1s;
+        -ms-transition: top 1s;
+    }
+    
+    #headerBar {
+        background: none;
+        top: -70px;
+        transition: top 1s;
+        -webkit-transition: top 1s;
+        -ms-transition: top 1s;
+    }
+    
+    .show {
+        top: 0px!important;
+        transition: top 1s;
+        -webkit-transition: top 1s;
+        -ms-transition: top 1s;
+    }
+    
+    nav {
+        color:white;
+    }
+    
+    .nus {
+        right: 20px;
+        top: 32px;
+        position: absolute;
+    }
+    
+    .nus > ul > li {
+        display: inline;
+    }
+    
+    .nus > ul > li > a{
+        color: white;
+        display: inline!important;
+    }
+    
+    .nus > ul > li > a:hover {
+        background-color: lightblue;
+        color: white;
+    }
+</style>
+<body class="container-fluid" style="padding:0">
+    <div class="bg-primary navbar" style="border-radius:0" id="headerBar-fake"></div>
+        <div class="bg-primary navbar" style="border-radius:0" id="headerBar">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <h1>Chess5</h1>
+                </div>
+                <div class="nus" id="">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/index">首页</a></li>
+                        <li><a href="/rooms">房间</a></li>
+                        <li><a href="/discussion">讨论</a></li>
+                        <% if (!user) { %>
+                            <li><a href="/login">登陆</a></li>
+                            <li><a href="/reg">注册</a></li>
+                        <% } else { %>
+                            <li><a href="/me">关于我</a></li>
+                            <li><a href="#" id="logout">注销</a></li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+        </div>

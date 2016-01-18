@@ -1,0 +1,17 @@
+{
+    "name" : "5chess",
+    "version" : "1.0.0",
+    "description" : "A 5chess game",
+    "dependencies" : {
+        "express" : "4.11.0",
+        "sqlite3" : "3.0.4",
+        "socket.io" : "1.3.6",
+        "ejs" : "*",
+        "express-session" : "*",
+        "body-parser": "*",
+        "crypto" : "*",
+        "bluebird" : "*",
+        "nl2br" : "*",
+        "busboy" : "*"
+    }
+}

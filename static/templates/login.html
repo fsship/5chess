@@ -1,0 +1,50 @@
+<% include public_header.html %>
+<style>
+    body {
+        /*background: url(/img/bg.jpg);
+        background-size: 100% 100%;*/
+    }
+    
+    .login {
+        width: 400px;
+        height: 400px;
+        top: 50%; 
+        left: 50%; 
+        position: absolute; 
+        margin-left: -200px; 
+        margin-top: -200px;
+        text-align: center;
+        border: 0;
+        box-shadow: 16px 16px 81px;
+    }
+    
+    .login > .mdl-card__title {
+        color: #fff; 
+        background: url(/img/loginbg.jpg);
+        height: 180px;
+        background-position: -1px 240px;
+        background-size: 107%;
+    }
+    
+    .pt {
+        width: 100%;
+    }
+
+</style>
+<div class="login panel">
+    <div class="mdl-card__title panel-heading">
+        <h2 class="mdl-card__title-text">用户登陆</h2>
+    </div>
+    <div class="mdl-card__supporting-text panel-body">
+        <div class="input-group input-group-lg pt">
+            <input id="username" type="text" class="form-control" placeholder="用户名"/>
+        </div>
+        <div class="input-group input-group-lg pt">
+            <input id="password" type="password" class="form-control" placeholder="密码"/>
+        </div>
+        <br />
+        <button class="btn btn-success btn-lg pt" id="btnLogin">登陆</button>
+    </div>
+
+</div>
+<% include public_footer.html %>

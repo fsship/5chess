@@ -1,0 +1,59 @@
+<% include public_header.html %>
+<style>
+    .well {
+        width: 800px;
+        height: 500px;
+        margin: auto;
+    }
+    
+    .well > h1 {
+        text-align: center;
+    }
+    
+    .msgbox {
+        width: 400px;
+        height: 400px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -200px;
+        margin-top: -200px;
+        text-align: center;
+    }
+    
+    .msgbox > h5 {
+        text-align: center;
+    }
+    
+    .msgbox > iframe {
+        width: 350px;
+        height: 280px;
+        background-color: white;
+        margin: auto;
+    }
+</style>
+<div class="well">
+    <h1>新用户注册</h1>
+    <div class="form-group">
+        <label for="username">用户名</label>
+        <input class="form-control" type="text" id="username"/>
+    </div>
+    <div class="form-group">
+        <label for="password">口令</label>
+        <input class="form-control" type="password" id="password"/>
+    </div>
+    <div class="form-group">        
+        <label for="pwd2">确认口令</label>
+        <input class="form-control" type="password" id="pwd2"/>
+    </div>
+    <div class="form-group">
+        <input type="checkbox" checked="true" /><span>我同意<a href="#" id="eula">最终用户许可协议</a></span>
+    </div>
+    <button id="btnReg" class="btn btn-success" style="text-align:center">确认注册</button>
+</div>
+<div class="msgbox hidden alert alert-info">
+    <h5>许可协议</h5>
+    <iframe src="/eula.html" frameborder="0"></iframe>
+    <button class="btn btn-success" id="close">关闭</button>
+</div>
+<% include public_footer.html %>
